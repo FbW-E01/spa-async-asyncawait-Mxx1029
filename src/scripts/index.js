@@ -8,20 +8,21 @@ const modal = document.getElementById("myModal");
 //     }, (1000 * 2));
 // });
 
-// i don't understand how to start looking for what i need to do 
-let promiseOfModal = async function () {
+// with André's help finally
+const waitAMinute = () => {
+    return new Promise((resolve) => {
     window.setTimeout(() => {
-        return modal;
-    }, (1000 * 5));
-};
+            resolve(modal);
+    }, (1000 * 2));
+})};
 
-try {
-    promiseOfModal();
+async function displayModal() {
+    await waitAMinute();
     console.log("User has been on the page for 60 seconds");
     modal.style.display = "block";
-} catch (e) {
-    console.log("error", e);
-}
+} 
+
+displayModal();
 
 // promiseOfModal.then(function(val) {
 //     console.log("User has been on the page for 60 seconds");
@@ -39,9 +40,21 @@ modal.addEventListener("click", (e) => {
 
 const button = document.querySelector("#continue");
 
-button.addEventListener('animationend', () => {
-    button.style.backgroundColor = "magenta";
-    alert("Continue to subscribe")
+function waitForAnimation () {
+    return new Promise (resolve => {
+        resolve(button);
+    })
+}
+
+async function getAlert () {
+    await waitForAnimation();
+    button.addEventListener('animationend', () => {
+        alert("Continue to subscribe");
+        button.style.backgroundColor = "magenta"; 
     });
+
+}
+
+getAlert();
     
 
